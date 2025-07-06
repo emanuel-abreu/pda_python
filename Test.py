@@ -1,24 +1,65 @@
 from State import State
 from Util import Util
 from PDA import PDA
+
+
 class Test:
-    @staticmethod
-    def mensagem():
-        print("\nPara reconhecer, é necessário implementar o método PDA.run, no PDA.py!")
-        print("\nEm PDA.py existe a \"pilha\", para ser trabalhada juntamente com a palavra \"w\" recebida em PDA.run(w)!")
 
     @staticmethod
-    def calc(w):
-        print("TODO: para utilizar o PDA aqui!")
+    def calc(w: str):
+        """
+        Reconhece strings que contêm 'a', operadores '+' e '*',
+        e que têm parênteses bem balanceados.
+        (Não verifica sintaxe completa de expressão, apenas
+        símbolos válidos e balanceamento de parênteses.)
+        """
+        print("Teste CALC:")
+        print(f"  w = {w}")
+        # Estado único q0
+        q0 = State('q0')
+        q0.setFinal()
+
+        # Transições para símbolos a, +, *
+        for c in ['a', '+', '*']:
+            q0.addTransition(q0, c, None, None)
+
+        # Empilha '(' e desempilha ')' para balanceamento
+        q0.addTransition(q0, '(', None, '(')
+        q0.addTransition(q0, ')', '(', None)
+
+        pda = PDA(q0)
+        b = pda.run(w)
+        Util.checkout(b, w)
+        print()
 
     @staticmethod
-    def enquanto(w):
-        print("TODO: para utilizar o PDA aqui!")
+    def enquanto(w: str):
+        """
+        Reconhece cadeias do tipo eqt(a){...} aninhadas ou em sequência,
+        garantindo que `{` e `}` fiquem balanceados.
+        """
+        print("Teste ENQUANTO:")
+        print(f"  w = {w}")
+        q0 = State('q0')
+        q0.setFinal()
+
+        # Letras de "eqt(a)"
+        for c in list("eqt(a)"):
+            q0.addTransition(q0, c, None, None)
+        # Abre chaves: empilha '{'
+        q0.addTransition(q0, '{', None, '{')
+        # Fecha chaves: desempilha '{'
+        q0.addTransition(q0, '}', '{', None)
+
+        pda = PDA(q0)
+        b = pda.run(w)
+        Util.checkout(b, w)
+        print()
 
     @staticmethod
-    def multiplo3(w): # Exemplo 1: Binário múltiplo de 3
-        print("Exemplo:")
-        print("{ w in Σ^* | w é um número binario multiplo de 3}")
+    def multiplo3(w: str):
+        print("Exemplo MÚLTIPLO DE 3:")
+        print("{ w in Σ^* | w é um número binário múltiplo de 3}")
         q0 = State('q0')
         q1 = State('q1')
         q2 = State('q2')
@@ -34,10 +75,11 @@ class Test:
         pda = PDA(q0)
         b = pda.run(w)
         Util.checkout(b, w)
-        Test.mensagem()
+        print()
 
     @staticmethod
-    def reverso(w): # Exemplo2: L = { ww^R | w in Σ^*={0,1}}
+    def reverso(w: str):
+        print("Exemplo REVERSO ww^R:")
         q1 = State('q1')
         q2 = State('q2')
         q3 = State('q3')
@@ -54,5 +96,5 @@ class Test:
 
         pda = PDA(q1)
         b = pda.run(w)
-        Util.checkout(b,w)
-        Test.mensagem()
+        Util.checkout(b, w)
+        print()

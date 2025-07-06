@@ -5,9 +5,15 @@ from Test import *
 
 if __name__ == "__main__":
     Test.multiplo3('00001111')
-    #Test.reverso('1001001001')
-    #Test.calc('a*a+(a+a)')
-    #Test.enquanto('eqt(a){eqt(a){}}eqt(a){}')
+    Test.multiplo3('1010')
+    Test.reverso('101010')
+    Test.reverso('10100101')
+    Test.reverso('1001001001')
 
-    # Faça outros testes pertinentes ao seu autômato PDA.
-    # Explorar o PDA é uma parte do trabalho AV1-PA.
+    Test.calc('a*a+(a+a)')
+    Test.calc('((a+a)*a)')
+
+    Test.enquanto('eqt(a){eqt(a){}}eqt(a){}')
+    Test.enquanto('eqt(a){eqt(a){eqt(a){}}}')
+    Test.enquanto('eqt(a){eqt(a){}}')
+    Test.enquanto('eqt(a){eqt(a){}')
