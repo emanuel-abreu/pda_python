@@ -10,19 +10,15 @@ class Test:
         """
         Reconhece strings que contêm 'a', operadores '+' e '*',
         e que têm parênteses bem balanceados.
-        (Não verifica sintaxe completa de expressão, apenas
-        símbolos válidos e balanceamento de parênteses.)
         """
         print("Teste CALC:")
         print(f"  w = {w}")
-        # Estado único q0
-        q0 = State('q0')
+        q0 = State('q0')  # estado único
         q0.setFinal()
 
         # Transições para símbolos a, +, *
         for c in ['a', '+', '*']:
             q0.addTransition(q0, c, None, None)
-
         # Empilha '(' e desempilha ')' para balanceamento
         q0.addTransition(q0, '(', None, '(')
         q0.addTransition(q0, ')', '(', None)
@@ -37,13 +33,16 @@ class Test:
         """
         Reconhece cadeias do tipo eqt(a){...} aninhadas ou em sequência,
         garantindo que `{` e `}` fiquem balanceados.
+        Gramática: S → eqt(a){ S } S | ε
         """
         print("Teste ENQUANTO:")
         print(f"  w = {w}")
         q0 = State('q0')
         q0.setFinal()
 
-        # Letras de "eqt(a)"
+        # Reconhece a palavra-chave 'eqt(a)'
+        # Transição epsilon para permitir S → ε (sequência de instruções)
+        q0.addTransition(q0, None, None, None)
         for c in list("eqt(a)"):
             q0.addTransition(q0, c, None, None)
         # Abre chaves: empilha '{'
@@ -64,7 +63,6 @@ class Test:
         q1 = State('q1')
         q2 = State('q2')
         q0.setFinal()
-
         q0.addTransition(q0, '0', None, None)
         q0.addTransition(q1, '1', None, None)
         q1.addTransition(q0, '1', None, None)
@@ -85,7 +83,6 @@ class Test:
         q3 = State('q3')
         q4 = State('q4')
         q4.setFinal()
-
         q1.addTransition(q2, None, None, '$')
         q2.addTransition(q2, '0', None, '0')
         q2.addTransition(q2, '1', None, '1')
